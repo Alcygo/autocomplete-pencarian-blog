@@ -52,16 +52,15 @@ function showSuggestions(value) {
     item.toLowerCase().startsWith(value.toLowerCase())
   );
   filtered.forEach(item => {
-    const div = document.createElement('div');
-    div.textContent = item;
-    div.addEventListener('click', () => {
-      input.value = item;
-      suggestionBox.innerHTML = '';
-    });
-    suggestionBox.appendChild(div);
+  const div = document.createElement('div');
+  div.textContent = item;
+  div.addEventListener('click', () => {
+    input.value = item;
+    suggestionBox.innerHTML = '';
+    input.form.submit();
   });
-}
-
+  suggestionBox.appendChild(div);
+});
 function debounce(func, delay) {
   let timeout;
   return function(...args) {
