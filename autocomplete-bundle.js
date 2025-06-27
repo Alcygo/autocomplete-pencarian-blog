@@ -21,6 +21,7 @@ style.innerHTML = `
 .autocomplete-suggestions {
   position: absolute;
   background-color: white;
+  box-shadow: none !important;
   max-height: 200px;
   width: 100%;
   overflow-y: auto;
