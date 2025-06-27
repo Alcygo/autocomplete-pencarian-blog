@@ -49,8 +49,8 @@ function showSuggestions(value) {
   suggestionBox.innerHTML = '';
   if (!value) return;
   const filtered = suggestions.filter(item =>
-    item.toLowerCase().startsWith(value.toLowerCase())
-  );
+  item.toLowerCase().includes(value.toLowerCase())
+);
   filtered.forEach(item => {
     const div = document.createElement('div');
     div.textContent = item;
