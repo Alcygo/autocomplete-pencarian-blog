@@ -22,8 +22,8 @@ style.innerHTML = `
   position: absolute;
   background-color: white;
   box-shadow: none;
-  max-height: 200px;
-  overflow-y: auto;
+  max-height: none;
+  overflow-y: visible;
   z-index: 9999;
 }
 .autocomplete-suggestions div {
@@ -34,13 +34,17 @@ style.innerHTML = `
 .autocomplete-suggestions div:hover {
   background-color: #f0f0f0;
 }
+.autocomplete-suggestions div.selected {
+  background-color: #e0e0e0;
+  font-weight: bold;
+}
 `;
 document.head.appendChild(style);
 
 const input = document.querySelector(".gsc-input");
 const suggestionBox = document.getElementById("suggestions");
 let suggestions = [];
-
+let selectedIndex = -1;
 fetch("https://alcygo.github.io/autocomplete-pencarian-blog/suggestions.json")
   .then(res => res.json())
   .then(data => suggestions = data);
@@ -73,7 +77,26 @@ function debounce(func, delay) {
 input.addEventListener("input", debounce(function(e) {
   showSuggestions(e.target.value);
 }, 300));
-
+input.addEventListener('keydown', (e) => {
+  const items = suggestionBox.querySelectorAll('div');
+  if (e.key === 'ArrowDown') {
+    selectedIndex = (selectedIndex + 1) % items.length;
+    updateSelection(items);
+    e.preventDefault();
+  } else if (e.key === 'ArrowUp') {
+    selectedIndex = (selectedIndex - 1 + items.length) % items.length;
+    updateSelection(items);
+    e.preventDefault();
+  } else if (e.key === 'Enter' && selectedIndex >= 0) {
+    items[selectedIndex].click();
+    e.preventDefault();
+  }
+});
+function updateSelection(items) {
+  items.forEach((item, i) => {
+    item.classList.toggle('selected', i === selectedIndex);
+  });
+}
 document.addEventListener("click", (e) => {
   if (!e.target.classList.contains("gsc-input")) {
     suggestionBox.innerHTML = '';
