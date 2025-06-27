@@ -23,7 +23,7 @@ style.innerHTML = `
   background-color: white;
   box-shadow: none;
   max-height: 200px;
-  width: 100%;
+  width: 50%;
   overflow-y: auto;
   z-index: 9999;
 }
