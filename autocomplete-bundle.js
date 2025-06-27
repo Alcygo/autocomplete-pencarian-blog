@@ -1,3 +1,4 @@
+// Inject CSS
 const style = document.createElement('style');
 style.innerHTML = `
 .gsc-input input.gsc-input {
@@ -37,6 +38,7 @@ style.innerHTML = `
 `;
 document.head.appendChild(style);
 
+// Script
 const input = document.querySelector(".gsc-input");
 const suggestionBox = document.getElementById("suggestions");
 let suggestions = [];
@@ -52,29 +54,31 @@ function showSuggestions(value) {
     item.toLowerCase().startsWith(value.toLowerCase())
   );
   filtered.forEach(item => {
-  const div = document.createElement('div');
-  div.textContent = item;
-  div.addEventListener('click', () => {
-    input.value = item;
-    suggestionBox.innerHTML = '';
-    input.form.submit();
+    const div = document.createElement('div');
+    div.textContent = item;
+    div.addEventListener('click', () => {
+      input.value = item;
+      suggestionBox.innerHTML = '';
+      input.form.submit(); 
+    });
+    suggestionBox.appendChild(div);
   });
-  suggestionBox.appendChild(div);
-});
+}
 function debounce(func, delay) {
   let timeout;
-  return function(...args) {
+  return function (...args) {
     clearTimeout(timeout);
     timeout = setTimeout(() => func.apply(this, args), delay);
   };
 }
-
-input.addEventListener("input", debounce(function(e) {
+input.addEventListener("input", debounce(function (e) {
   showSuggestions(e.target.value);
 }, 300));
-
 document.addEventListener("click", (e) => {
-  if (!e.target.classList.contains("gsc-input")) {
+  if (
+    !e.target.closest("#suggestions") &&
+    !e.target.classList.contains("gsc-input")
+  ) {
     suggestionBox.innerHTML = '';
   }
 });
