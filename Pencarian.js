@@ -22,8 +22,8 @@ style.innerHTML = `
   position: absolute;
   background-color: white;
   box-shadow: none;
-  max-height: none;
-  overflow-y: visible;
+  max-height: none !important;
+  overflow: hidden !important;
   z-index: 9999;
 }
 .autocomplete-suggestions div {
@@ -40,7 +40,6 @@ style.innerHTML = `
 }
 `;
 document.head.appendChild(style);
-
 const input = document.querySelector(".gsc-input");
 const suggestionBox = document.getElementById("suggestions");
 let suggestions = [];
@@ -48,24 +47,23 @@ let selectedIndex = -1;
 fetch("https://alcygo.github.io/autocomplete-pencarian-blog/suggestions.json")
   .then(res => res.json())
   .then(data => suggestions = data);
-
 function showSuggestions(value) {
   suggestionBox.innerHTML = '';
   if (!value) return;
-  const filtered = suggestions.filter(item =>
-  item.toLowerCase().includes(value.toLowerCase())
-);
+  const filtered = suggestions
+    .filter(item => item.toLowerCase().includes(value.toLowerCase()))
+    .slice(0, 5);
   filtered.forEach(item => {
     const div = document.createElement('div');
     div.textContent = item;
     div.addEventListener('click', () => {
       input.value = item;
       suggestionBox.innerHTML = '';
+      input.form.submit();
     });
     suggestionBox.appendChild(div);
   });
 }
-
 function debounce(func, delay) {
   let timeout;
   return function(...args) {
