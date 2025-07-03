@@ -2,7 +2,7 @@ const style = document.createElement('style');
 style.innerHTML = `
 .gsc-input input.gsc-input {
   border: 1px solid #ddd;
-  border-radius: 4px;
+  border-radius: 20px;
   padding: 8px;
   box-shadow: inset 0 1px 2px rgba(0,0,0,0.075);
   box-sizing: border-box;
