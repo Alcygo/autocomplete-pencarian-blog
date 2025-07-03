@@ -81,3 +81,43 @@ $('.slider-wrapper .HTML .widget-content').each(function () {
     });
   }
 });
+// ============ CEK DAN INISIALISASI PLUGIN PENTING ============
+
+// Cek dan aktifkan hoverTimeout jika plugin tersedia
+$(document).ready(function () {
+  if (typeof $.fn.hoverTimeout === 'function') {
+    $("#menu ul li").each(function () {
+      $(this).hoverTimeout(0,
+        function () {
+          $(this).children("ul").slideDown();
+        },
+        0,
+        function () {
+          $(this).children("ul").hide();
+        });
+    });
+  } else {
+    console.warn("⚠️ Plugin 'hoverTimeout' belum dimuat. Efek hover menu tidak aktif.");
+  }
+});
+
+// Cek dan aktifkan flexslider jika plugin tersedia
+$(window).on("load", function () {
+  if (typeof $.fn.flexslider === 'function') {
+    if ($('#featured-slider .slides').length > 0) {
+      $('#featured-slider').flexslider({
+        controlsContainer: '#slider-nav',
+        controlNav: false,
+        pauseOnAction: false,
+        pauseOnHover: true,
+        animation: 'fade',
+        animationSpeed: 1200,
+        slideshowSpeed: 7000,
+        prevText: '',
+        nextText: ''
+      });
+    }
+  } else {
+    console.warn("⚠️ Plugin 'flexslider' belum dimuat. Slider tidak berjalan.");
+  }
+});
